@@ -8,7 +8,7 @@ namespace NumbersGame
         {
             byte attempts = 5;
             Random random = new Random();
-            int randomNumber = random.Next(1, 2);
+            int randomNumber = random.Next(1, 20);
             int guessedNumber;
             bool guessedRightNumber = false;
             WriteLine("Välkommen!Jag tänker på ett nummer. Kan du gissa vilket? Du får fem försök.");
@@ -39,7 +39,10 @@ namespace NumbersGame
             if (guessedRightNumber)
                 WriteLine("Woho! Du gjorde det!");
             else
-                WriteLine("Tyvärr du lyckades inte gissa talet på fem försök!");
+            {
+                WriteLine("\nTyvärr du lyckades inte gissa talet på fem försök!");
+                WriteLine($"Jag tänkte på nummer {randomNumber}");
+            }
 
                 
         }
@@ -48,7 +51,7 @@ namespace NumbersGame
         {
             int answer;
             
-            while (int.TryParse(ReadLine(), out answer))
+            while (!int.TryParse(ReadLine(), out answer))
             {
                 WriteLine("Du måste gissa ett nummer!");
             }
