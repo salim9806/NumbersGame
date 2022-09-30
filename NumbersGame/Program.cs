@@ -6,30 +6,46 @@ namespace NumbersGame
     {
         static void Main(string[] args)
         {
-            
+ 
+            WriteLine($"Välkommen!\n\n");
+
+            bool playAgain = true;
+
+            while (playAgain)
+            {
+                SetDiffucultyLevel(out byte attempts, out int randomNumber, out (int min, int max) range);
+                WriteLine($"\nJag tänker på ett nummer mellan {range.min} och {range.max}. \nKan du gissa vilket? Du får {attempts} försök.\n");
+
+                StartGame(attempts, randomNumber);
+
+                playAgain = StartOver();
+
+                Clear(); // clears the console.
+            }
+
+            WriteLine("Tack och välkommen åter!");
+        }
+
+        static void StartGame(int attempts, int numberToGuess)
+        {
             int guessedNumber;
             bool guessedRightNumber = false;
-            
-            SetDiffucultyLevel(out byte attempts, out int randomNumber, out (int min, int max) range);
- 
-            WriteLine($"\nVälkommen!Jag tänker på ett nummer mellan {range.min} och {range.max}. \nKan du gissa vilket? Du får {attempts} försök.\n");
-            
-            while(attempts > 0)
+            while (attempts > 0)
             {
                 guessedNumber = ReadLineInt();
 
-                if (guessedNumber == randomNumber)
+                if (guessedNumber == numberToGuess)
                 {
                     guessedRightNumber = true;
                     break;
                 }
 
-                if (guessedNumber < randomNumber)
+                if (guessedNumber < numberToGuess)
                 {
                     WriteLine("Tyvärr du gissade för lågt!");
 
                 }
-                else if(guessedNumber > randomNumber)
+                else if (guessedNumber > numberToGuess)
                 {
                     WriteLine("Tyvärr du gissade för högt!");
                 }
@@ -42,10 +58,26 @@ namespace NumbersGame
             else
             {
                 WriteLine("\nTyvärr du lyckades inte gissa talet på fem försök!");
-                WriteLine($"Jag tänkte på nummer {randomNumber}");
+                WriteLine($"Jag tänkte på nummer {numberToGuess}");
             }
 
+            WriteLine("\n\n");
+        }
+
+        static bool StartOver()
+        {
+            string answer;
+            
+            do
+            {
+                Write("Vill du spela igen? ['ja' eller 'nej']");
+                answer = ReadLine();
                 
+            } while (string.IsNullOrEmpty(answer) || (answer != "ja" && answer != "nej"));
+
+            if (answer == "ja")
+                return true;
+            return false;
         }
 
         static void SetDiffucultyLevel(out byte attempts, out int randomNumber, out (int min, int max) range)
